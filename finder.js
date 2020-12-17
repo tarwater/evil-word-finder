@@ -3,11 +3,11 @@ const natural = require('natural');
 const data = fs.readFileSync('input', 'UTF-8');
 natural.PorterStemmer.attach();
 
-let l1 = data.tokenizeAndStem();
+let tokens = data.tokenizeAndStem();
 
 let counts = {};
 
-l1.forEach(token => {
+tokens.forEach(token => {
     counts[token] = ~~counts[token] + 1;
 });
 
@@ -20,7 +20,9 @@ Object.keys(counts).forEach(word => {
 });
 
 results = results.sort((a, b) =>{
-   return Number(a.split(": ")[1]) - Number(b.split(": ")[1])
+   return Number(b.split(": ")[1]) - Number(a.split(": ")[1])
 });
 
-results.forEach(w => console.log(w));
+
+let logger = fs.createWriteStream('output');
+results.forEach(res => logger.write(res + "\n"));
